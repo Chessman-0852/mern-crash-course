@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.json()); // allows us to accept JSON data in the req.body
 
-app.use("/api/products", productRoutes);
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
