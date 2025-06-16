@@ -13,18 +13,31 @@ const PORT = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.json()); // allows us to accept JSON data in the req.body
+app.use(express.json());
 
+// API Routes
+app.use("/api/products", productRoutes);
+
+// Static files (both development and production)
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-  });
-}
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+// Client-side routing (SPA fallback)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
+
+// Database connection and server start
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(
+        `Server running in ${
+          process.env.NODE_ENV || "development"
+        } mode on port ${PORT}`
+      );
+    });
+  })
+  .catch((err) => {
+    console.error("Database connection failed", err);
+    process.exit(1);
+  });
