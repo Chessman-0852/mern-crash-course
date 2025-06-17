@@ -16,6 +16,7 @@
     "@chakra-ui/react": "^2.10.7",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "cross-env": "^7.0.3",
     "framer-motion": "^12.6.3",
     "mern_projects": "file:..",
     "mern-crash-course": "file:..",
